@@ -54,31 +54,31 @@ pnpm deploy
 
 ## KV Data Model
 
-| Key | Value |
-|-----|-------|
-| `domains` | `["example.com", "short.io"]` |
-| `rules:{domain}` | `[{id, source, target, type, statusCode, ...}]` |
-| `config:{domain}` | `{domain, custom404Html?, defaultUrl?}` |
+| Key               | Value                                           |
+| ----------------- | ----------------------------------------------- |
+| `domains`         | `["example.com", "short.io"]`                   |
+| `rules:{domain}`  | `[{id, source, target, type, statusCode, ...}]` |
+| `config:{domain}` | `{domain, custom404Html?, defaultUrl?}`         |
 
 ## API Endpoints
 
 All `/api/*` routes require Cloudflare Access authentication.
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/api/domains` | List domains |
-| POST | `/api/domains` | Add domain |
-| DELETE | `/api/domains/:domain` | Delete domain + rules |
-| GET | `/api/config/:domain` | Get domain config |
-| PUT | `/api/config/:domain` | Update domain config |
-| GET | `/api/rules/:domain` | List rules |
-| POST | `/api/rules/:domain` | Create rule |
-| PUT | `/api/rules/:domain/:id` | Update rule |
-| DELETE | `/api/rules/:domain/:id` | Delete rule |
-| GET | `/api/analytics/:domain` | Domain analytics |
-| GET | `/api/analytics/:domain/:id` | Rule analytics |
-| GET | `/api/export/:domain` | Export rules JSON |
-| POST | `/api/import/:domain` | Import rules JSON |
+| Method | Path                         | Description           |
+| ------ | ---------------------------- | --------------------- |
+| GET    | `/api/domains`               | List domains          |
+| POST   | `/api/domains`               | Add domain            |
+| DELETE | `/api/domains/:domain`       | Delete domain + rules |
+| GET    | `/api/config/:domain`        | Get domain config     |
+| PUT    | `/api/config/:domain`        | Update domain config  |
+| GET    | `/api/rules/:domain`         | List rules            |
+| POST   | `/api/rules/:domain`         | Create rule           |
+| PUT    | `/api/rules/:domain/:id`     | Update rule           |
+| DELETE | `/api/rules/:domain/:id`     | Delete rule           |
+| GET    | `/api/analytics/:domain`     | Domain analytics      |
+| GET    | `/api/analytics/:domain/:id` | Rule analytics        |
+| GET    | `/api/export/:domain`        | Export rules JSON     |
+| POST   | `/api/import/:domain`        | Import rules JSON     |
 
 ## License
 
