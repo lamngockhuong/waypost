@@ -1,0 +1,18 @@
+name = "waypost"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[kv_namespaces]]
+binding = "REDIRECTS_KV"
+id = "<placeholder>"
+
+[[d1_databases]]
+binding = "ANALYTICS_DB"
+database_name = "redirect-analytics"
+database_id = "<placeholder>"
+migrations_dir = "migrations"
+
+[vars]
+ACCESS_AUD = ""
+ACCESS_TEAM = ""
