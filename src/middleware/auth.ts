@@ -36,15 +36,15 @@ function base64UrlDecode(str: string): Uint8Array {
 
 export const accessAuth = createMiddleware<{ Bindings: Bindings }>(
   async (c, next) => {
-    const jwt = c.req.header('Cf-Access-Jwt-Assertion')
-    if (!jwt) {
-      return c.json({ error: 'Unauthorized' }, 401)
-    }
-
-    // Skip validation if ACCESS_TEAM is not configured (local dev)
+    // Skip auth entirely if ACCESS_TEAM is not configured (local dev)
     if (!c.env.ACCESS_TEAM) {
       await next()
       return
+    }
+
+    const jwt = c.req.header('Cf-Access-Jwt-Assertion')
+    if (!jwt) {
+      return c.json({ error: 'Unauthorized' }, 401)
     }
 
     try {

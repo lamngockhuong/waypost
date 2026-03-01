@@ -15,6 +15,10 @@ Multi-domain URL redirect system with KV rules, D1 analytics, and Preact admin U
 
 ```bash
 pnpm install
+
+# Apply D1 migrations (local)
+pnpm d1:migrate
+
 pnpm dev
 ```
 

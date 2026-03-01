@@ -134,9 +134,9 @@ describe('API endpoints', () => {
   })
 
   describe('Auth', () => {
-    it('returns 401 without JWT header', async () => {
+    it('skips auth when ACCESS_TEAM is not configured (local dev)', async () => {
       const res = await SELF.fetch('https://test.example.com/api/domains')
-      expect(res.status).toBe(401)
+      expect(res.status).toBe(200)
     })
 
     it('allows access with JWT header', async () => {
