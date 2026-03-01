@@ -1,0 +1,30 @@
+{
+  "lineWidth": 100,
+  "indentWidth": 2,
+  "useTabs": false,
+  "markdown": {
+    "lineWidth": 100,
+    "textWrap": "maintain"
+  },
+  "json": {
+    "indentWidth": 2,
+    "trailingCommas": "never"
+  },
+  "includes": [
+    "**/*.md",
+    "**/*.json",
+    "**/*.css"
+  ],
+  "excludes": [
+    "node_modules",
+    "dist",
+    ".astro",
+    "pnpm-lock.yaml",
+    "plans/**"
+  ],
+  "plugins": [
+    "https://plugins.dprint.dev/markdown-0.20.0.wasm",
+    "https://plugins.dprint.dev/json-0.20.0.wasm",
+    "https://plugins.dprint.dev/g-plane/malva-v0.15.2.wasm"
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "name": "waypost",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Multi-domain URL redirect system with KV rules, D1 analytics, and Preact admin UI on Cloudflare Workers",
   "type": "module",
   "scripts": {
@@ -9,7 +9,9 @@
     "d1:migrate": "wrangler d1 migrations apply redirect-analytics",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "fmt": "dprint fmt",
+    "fmt:check": "dprint check"
   },
   "keywords": [
     "cloudflare",
@@ -21,17 +23,19 @@
   "license": "MIT",
   "packageManager": "pnpm@10.29.3",
   "dependencies": {
-    "hono": "^4.12.3"
+    "hono": "4.12.3"
   },
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "^0.12.18",
-    "@cloudflare/workers-types": "^4.20260301.1",
-    "typescript": "^5.9.3",
-    "vitest": "^3.2.4",
-    "wrangler": "^4.69.0"
+    "@cloudflare/vitest-pool-workers": "0.12.18",
+    "@cloudflare/workers-types": "4.20260301.1",
+    "dprint": "0.52.0",
+    "typescript": "5.9.3",
+    "vitest": "3.2.4",
+    "wrangler": "4.69.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
+      "dprint",
       "esbuild",
       "workerd"
     ]
