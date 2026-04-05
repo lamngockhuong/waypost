@@ -30,6 +30,12 @@ tests/
 
 migrations/
 └── 0001_create_click_events.sql          # D1 schema initialization
+
+scripts/
+└── generate-wrangler.sh                  # Generate wrangler.toml from template + env vars
+
+wrangler.toml.template                    # Template with ${ENV_VAR} placeholders
+.env.example                              # Reference env vars for configuration
 ```
 
 ## Module Descriptions
@@ -478,12 +484,14 @@ pnpm test:watch    # Watch mode
 
 ## Configuration
 
-#### `wrangler.toml`
+#### `wrangler.toml.template` → `wrangler.toml` (auto-generated)
 
-- `main` = src/index.ts
+- `wrangler.toml` is gitignored, generated from `wrangler.toml.template` by `scripts/generate-wrangler.sh`
+- Env vars loaded from `.env` file or CI/CD build settings
+- Required: `REDIRECTS_KV_ID`, `ANALYTICS_DB_ID`
+- Optional: `ANALYTICS_DB_NAME`, `ACCESS_AUD`, `ACCESS_TEAM`
 - KV binding: `REDIRECTS_KV`
 - D1 binding: `ANALYTICS_DB`
-- Environment variables: `ACCESS_AUD`, `ACCESS_TEAM`
 
 #### `tsconfig.json`
 

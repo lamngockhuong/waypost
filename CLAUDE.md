@@ -9,14 +9,15 @@ Waypost is a multi-domain URL redirect system running on Cloudflare Workers. It 
 ## Commands
 
 ```bash
-pnpm dev              # Start local dev server (wrangler) at localhost:8787
+pnpm setup            # Generate wrangler.toml from template + env vars
+pnpm dev              # Start local dev server (auto-runs setup)
 pnpm admin:dev        # Start Vite dev server with HMR for admin SPA
 pnpm admin:build      # Build admin SPA to public/admin/
 pnpm test             # Run tests once (vitest + @cloudflare/vitest-pool-workers)
 pnpm test:watch       # Run tests in watch mode
 pnpm typecheck        # TypeScript type checking (server + admin tsconfigs)
-pnpm deploy           # Build admin + deploy to Cloudflare Workers
-pnpm d1:migrate       # Apply D1 migrations
+pnpm deploy           # Setup + build admin + deploy to Cloudflare Workers
+pnpm d1:migrate       # Setup + apply D1 migrations
 ```
 
 ## Architecture

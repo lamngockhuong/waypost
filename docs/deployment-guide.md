@@ -9,6 +9,20 @@ Complete guide for deploying Waypost to Cloudflare Workers.
 - Cloudflare account with Workers enabled
 - Access to create KV namespaces and D1 databases
 
+## Quick Start (Fork & Deploy)
+
+1. Fork this repo on GitHub
+2. Create Cloudflare resources in dashboard:
+   - **KV namespace** (for redirect rules storage)
+   - **D1 database** (for click analytics)
+3. Connect your forked repo to **Cloudflare Workers**
+4. Set environment variables in **Workers > Settings > Build**:
+   - `REDIRECTS_KV_ID` — your KV namespace ID
+   - `ANALYTICS_DB_ID` — your D1 database ID
+5. Deploy — the build script auto-generates `wrangler.toml` and runs migrations
+
+No source code changes needed. Sync upstream updates without merge conflicts.
+
 ## Local Setup
 
 1. Clone repository:
@@ -24,11 +38,11 @@ cd waypost
 pnpm install
 ```
 
-3. Create local KV and D1:
+3. Configure environment:
 
 ```bash
-wrangler kv namespace create REDIRECTS_KV --local
-wrangler d1 create redirect-analytics --local
+cp .env.example .env
+# Edit .env with your Cloudflare resource IDs
 ```
 
 4. Apply migrations:
@@ -40,7 +54,7 @@ pnpm d1:migrate
 5. Start development:
 
 ```bash
-# Terminal 1: Worker dev server
+# Terminal 1: Worker dev server (auto-generates wrangler.toml)
 pnpm dev
 
 # Terminal 2: Admin SPA dev server
@@ -51,45 +65,45 @@ Visit http://localhost:8787/admin
 
 ## Production Deployment
 
-### Step 1: Create Cloudflare Resources
+### Option A: Fork & Deploy (recommended)
 
-Create KV namespace:
+See [Quick Start](#quick-start-fork--deploy) above.
+
+### Option B: Manual Deploy
+
+#### Step 1: Create Cloudflare Resources
 
 ```bash
 wrangler kv namespace create REDIRECTS_KV
 # Returns: id = "xxxxxxx"
-```
 
-Create D1 database:
-
-```bash
 wrangler d1 create redirect-analytics
 # Returns: database_id = "xxxxxxx"
 ```
 
-### Step 2: Update wrangler.toml
+#### Step 2: Configure Environment
 
-Update `[[kv_namespaces]]` and `[[d1_databases]]` sections with the IDs from above:
+Create `.env` file (or export env vars):
 
-```toml
-[[kv_namespaces]]
-binding = "REDIRECTS_KV"
-id = "xxxxxxx"
-
-[[d1_databases]]
-binding = "ANALYTICS_DB"
-database_name = "redirect-analytics"
-database_id = "xxxxxxx"
+```bash
+cp .env.example .env
+# Fill in REDIRECTS_KV_ID and ANALYTICS_DB_ID
 ```
 
-### Step 3: Configure Environment Variables
+Or export directly:
 
-Set Cloudflare Access credentials in `wrangler.toml` under `[vars]`:
+```bash
+export REDIRECTS_KV_ID=xxxxxxx
+export ANALYTICS_DB_ID=xxxxxxx
+```
 
-```toml
-[vars]
-ACCESS_AUD = "your-access-aud-from-cloudflare-console"
-ACCESS_TEAM = "your-team-name"
+#### Step 3: Configure Cloudflare Access (optional)
+
+Set in `.env`:
+
+```
+ACCESS_AUD=your-access-aud-from-cloudflare-console
+ACCESS_TEAM=your-team-name
 ```
 
 Or set via `wrangler secret`:
@@ -99,17 +113,13 @@ wrangler secret put ACCESS_AUD
 wrangler secret put ACCESS_TEAM
 ```
 
-### Step 4: Apply Database Migrations
-
-Apply D1 migrations to production:
+#### Step 4: Apply Database Migrations
 
 ```bash
 wrangler d1 migrations apply redirect-analytics --remote
 ```
 
-### Step 5: Deploy
-
-Build admin SPA and deploy:
+#### Step 5: Deploy
 
 ```bash
 pnpm deploy
@@ -117,14 +127,32 @@ pnpm deploy
 
 This runs:
 
-1. `pnpm admin:build` - Builds SPA to `public/admin/`
-2. `wrangler deploy` - Deploys Worker and static assets
+1. `pnpm setup` - Generates `wrangler.toml` from template + env vars
+2. `pnpm admin:build` - Builds SPA to `public/admin/`
+3. `wrangler deploy` - Deploys Worker and static assets
 
 Verify deployment:
 
 ```bash
 wrangler deployments list
 ```
+
+## How wrangler.toml Generation Works
+
+`wrangler.toml` is **not tracked in git**. Instead:
+
+- `wrangler.toml.template` contains placeholders (`${REDIRECTS_KV_ID}`, etc.)
+- `scripts/generate-wrangler.sh` reads env vars (from `.env` or CI/CD) and generates `wrangler.toml`
+- All `pnpm` commands (`dev`, `deploy`, `d1:migrate`) auto-run generation before execution
+- If `wrangler.toml` already exists and no env vars are set, it's left untouched
+
+| Variable            | Required | Default              | Description                 |
+| ------------------- | -------- | -------------------- | --------------------------- |
+| `REDIRECTS_KV_ID`   | Yes      | —                    | KV namespace ID             |
+| `ANALYTICS_DB_ID`   | Yes      | —                    | D1 database ID              |
+| `ANALYTICS_DB_NAME` | No       | `redirect-analytics` | D1 database name            |
+| `ACCESS_AUD`        | No       | `""`                 | Cloudflare Access AUD       |
+| `ACCESS_TEAM`       | No       | `""`                 | Cloudflare Access team name |
 
 ## Cloudflare Access Setup
 
@@ -141,13 +169,14 @@ To protect `/admin/*` and `/api/*` routes with Cloudflare Access:
 7. Copy Application Audience (AUD) tag
 8. Copy team name from account settings
 
-Add to wrangler.toml:
+Add to `.env`:
 
-```toml
-[vars]
-ACCESS_AUD = "xxxxxxx.cloudflareaccess.com"
-ACCESS_TEAM = "your-team"
 ```
+ACCESS_AUD=xxxxxxx.cloudflareaccess.com
+ACCESS_TEAM=your-team
+```
+
+Or set in Cloudflare Workers Build Settings as environment variables.
 
 ## Custom Domain Setup
 

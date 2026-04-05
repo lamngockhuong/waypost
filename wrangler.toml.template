@@ -5,12 +5,12 @@ compatibility_flags = ["nodejs_compat"]
 
 [[kv_namespaces]]
 binding = "REDIRECTS_KV"
-id = "<placeholder>"
+id = "${REDIRECTS_KV_ID}"
 
 [[d1_databases]]
 binding = "ANALYTICS_DB"
-database_name = "redirect-analytics"
-database_id = "<placeholder>"
+database_name = "${ANALYTICS_DB_NAME}"
+database_id = "${ANALYTICS_DB_ID}"
 migrations_dir = "migrations"
 
 [assets]
@@ -19,5 +19,5 @@ binding = "ASSETS"
 not_found_handling = "none"
 
 [vars]
-ACCESS_AUD = ""
-ACCESS_TEAM = ""
+ACCESS_AUD = "${ACCESS_AUD}"
+ACCESS_TEAM = "${ACCESS_TEAM}"
