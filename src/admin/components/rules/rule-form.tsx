@@ -85,9 +85,9 @@ export function RuleForm({ rule, onSubmit, onCancel }: RuleFormProps) {
 
       {/* Type selector */}
       <div class="space-y-1">
-        <label class="block text-sm font-semibold text-slate-700">Type</label>
+        <label class="block text-sm font-semibold text-label">Type</label>
         <select
-          class="block w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm"
+          class="block w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-foreground"
           value={type}
           onChange={(e) => setType((e.target as HTMLSelectElement).value as RedirectType)}
         >
@@ -99,9 +99,9 @@ export function RuleForm({ rule, onSubmit, onCancel }: RuleFormProps) {
 
       {/* Status code selector */}
       <div class="space-y-1">
-        <label class="block text-sm font-semibold text-slate-700">Status Code</label>
+        <label class="block text-sm font-semibold text-label">Status Code</label>
         <select
-          class="block w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm"
+          class="block w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-foreground"
           value={statusCode}
           onChange={(e) => setStatusCode(Number((e.target as HTMLSelectElement).value) as 301 | 302)}
         >
@@ -120,12 +120,12 @@ export function RuleForm({ rule, onSubmit, onCancel }: RuleFormProps) {
       />
 
       <div class="flex items-center justify-between">
-        <span class="text-sm font-semibold text-slate-700">Preserve Query</span>
+        <span class="text-sm font-semibold text-label">Preserve Query</span>
         <Toggle checked={preserveQuery} onChange={setPreserveQuery} label="Preserve query string" />
       </div>
 
       <div class="flex items-center justify-between">
-        <span class="text-sm font-semibold text-slate-700">Enabled</span>
+        <span class="text-sm font-semibold text-label">Enabled</span>
         <Toggle checked={enabled} onChange={setEnabled} label="Rule enabled" />
       </div>
 

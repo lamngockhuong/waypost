@@ -19,7 +19,7 @@ interface DomainDetailProps {
   params: { domain: string }
 }
 
-const tabClass = "border-b-2 border-transparent px-4 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:text-slate-700 focus-visible:outline-none data-selected:border-primary data-selected:text-primary"
+const tabClass = "border-b-2 border-transparent px-4 py-2.5 text-sm font-medium text-muted-fg transition-colors hover:text-label focus-visible:outline-none data-selected:border-primary data-selected:text-primary"
 
 export function DomainDetailPage({ params }: DomainDetailProps) {
   const domain = decodeURIComponent(params.domain)
@@ -210,7 +210,7 @@ export function DomainDetailPage({ params }: DomainDetailProps) {
         ]}
       />
 
-      <TabGroup class="mt-4">
+      <TabGroup class="p-3 sm:p-4 md:p-6">
         <TabList class="flex gap-1 border-b border-border">
           <Tab class={tabClass}>Rules</Tab>
           <Tab class={tabClass}>Settings</Tab>
@@ -306,7 +306,7 @@ export function DomainDetailPage({ params }: DomainDetailProps) {
         onClose={() => setDeleteRule(null)}
         title="Delete Rule"
       >
-        <p class="text-sm text-slate-600">
+        <p class="text-sm text-subtle">
           Delete the rule for <strong class="font-mono">{deleteRule?.source}</strong>? This cannot be undone.
         </p>
         <div class="mt-4 flex justify-end gap-2">
@@ -321,7 +321,7 @@ export function DomainDetailPage({ params }: DomainDetailProps) {
         onClose={() => setImportData(null)}
         title="Import Rules"
       >
-        <p class="text-sm text-slate-600">
+        <p class="text-sm text-subtle">
           Import <strong>{importData?.length ?? 0}</strong> rules. Choose how to handle existing rules:
         </p>
         <div class="mt-4 flex flex-col gap-2">

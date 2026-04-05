@@ -15,7 +15,7 @@ export function Table({ class: cls = "", children, ...props }: TableProps) {
 }
 
 export function TableHeader({ children, ...props }: JSX.HTMLAttributes<HTMLTableSectionElement>) {
-  return <thead class="border-b border-border bg-slate-50 text-left text-xs font-semibold uppercase text-slate-500" {...props}>{children}</thead>
+  return <thead class="border-b border-border bg-background text-left text-xs font-semibold uppercase text-muted-fg" {...props}>{children}</thead>
 }
 
 export function TableBody({ children, ...props }: JSX.HTMLAttributes<HTMLTableSectionElement>) {
@@ -23,7 +23,7 @@ export function TableBody({ children, ...props }: JSX.HTMLAttributes<HTMLTableSe
 }
 
 export function TableRow({ class: cls = "", children, ...props }: JSX.HTMLAttributes<HTMLTableRowElement>) {
-  return <tr class={`transition-colors hover:bg-slate-50 ${cls}`} {...props}>{children}</tr>
+  return <tr class={`transition-colors hover:bg-surface-hover ${cls}`} {...props}>{children}</tr>
 }
 
 export function TableHead({ class: cls = "", children, ...props }: JSX.HTMLAttributes<HTMLTableCellElement>) {

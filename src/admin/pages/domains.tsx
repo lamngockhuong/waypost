@@ -99,83 +99,85 @@ export function DomainsPage() {
         }
       />
 
-      {/* KPI cards */}
-      <KpiRow domains={domains} stats={stats} loading={loading} />
+      <div class="p-3 sm:p-4 md:p-6">
+        {/* KPI cards */}
+        <KpiRow domains={domains} stats={stats} loading={loading} />
 
-      {/* Error state */}
-      {error && (
-        <div class="mt-4 flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700" role="alert">
-          <AlertCircle class="h-4 w-4 shrink-0" />
-          <span>{error}</span>
-          <Button variant="outline" size="sm" class="ml-auto" onClick={fetchDomains}>
-            Retry
-          </Button>
-        </div>
-      )}
-
-      {/* Loading skeletons */}
-      {loading && !error && (
-        <>
-          <div class="mt-4">
-            <Skeleton class="h-10 w-64" />
+        {/* Error state */}
+        {error && (
+          <div class="mt-4 flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-300" role="alert">
+            <AlertCircle class="h-4 w-4 shrink-0" />
+            <span>{error}</span>
+            <Button variant="outline" size="sm" class="ml-auto" onClick={fetchDomains}>
+              Retry
+            </Button>
           </div>
-          <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <Skeleton key={i} class="h-24 w-full rounded-xl" />
-            ))}
-          </div>
-        </>
-      )}
+        )}
 
-      {/* Loaded content */}
-      {!loading && !error && (
-        <>
-          {/* Search bar */}
-          {domains.length > 0 && (
-            <div class="relative mt-4">
-              <Search class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-              <Input
-                class="pl-10"
-                placeholder="Search domains..."
-                value={query}
-                onInput={(e) => setQuery((e.target as HTMLInputElement).value)}
-              />
+        {/* Loading skeletons */}
+        {loading && !error && (
+          <>
+            <div class="mt-4">
+              <Skeleton class="h-10 w-64" />
             </div>
-          )}
-
-          {/* Domain grid or empty state */}
-          {domains.length === 0 ? (
-            <EmptyState
-              icon={Globe}
-              title="No domains yet"
-              description="Add your first domain to start managing redirects."
-              action={
-                <Button onClick={() => setShowAdd(true)}>
-                  <Plus class="h-4 w-4" /> Add Domain
-                </Button>
-              }
-            />
-          ) : filtered && filtered.length === 0 ? (
-            <EmptyState
-              icon={Search}
-              title={`No matches for "${query}"`}
-              description="Try a different search term."
-            />
-          ) : (
             <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {filtered?.map((domain) => (
-                <DomainCard
-                  key={domain}
-                  domain={domain}
-                  ruleCount={stats?.get(domain)?.rules ?? 0}
-                  clickCount={stats?.get(domain)?.clicks ?? 0}
-                  onDelete={setDeleteTarget}
-                />
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Skeleton key={i} class="h-24 w-full rounded-xl" />
               ))}
             </div>
-          )}
-        </>
-      )}
+          </>
+        )}
+
+        {/* Loaded content */}
+        {!loading && !error && (
+          <>
+            {/* Search bar */}
+            {domains.length > 0 && (
+              <div class="relative mt-4">
+                <Search class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-placeholder" />
+                <Input
+                  class="pl-10"
+                  placeholder="Search domains..."
+                  value={query}
+                  onInput={(e) => setQuery((e.target as HTMLInputElement).value)}
+                />
+              </div>
+            )}
+
+            {/* Domain grid or empty state */}
+            {domains.length === 0 ? (
+              <EmptyState
+                icon={Globe}
+                title="No domains yet"
+                description="Add your first domain to start managing redirects."
+                action={
+                  <Button onClick={() => setShowAdd(true)}>
+                    <Plus class="h-4 w-4" /> Add Domain
+                  </Button>
+                }
+              />
+            ) : filtered && filtered.length === 0 ? (
+              <EmptyState
+                icon={Search}
+                title={`No matches for "${query}"`}
+                description="Try a different search term."
+              />
+            ) : (
+              <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {filtered?.map((domain) => (
+                  <DomainCard
+                    key={domain}
+                    domain={domain}
+                    ruleCount={stats?.get(domain)?.rules ?? 0}
+                    clickCount={stats?.get(domain)?.clicks ?? 0}
+                    onDelete={setDeleteTarget}
+                  />
+                ))}
+              </div>
+            )}
+          </>
+        )}
+      </div>
 
       {/* Add domain dialog */}
       <AddDomainDialog
@@ -190,7 +192,7 @@ export function DomainsPage() {
         onClose={() => setDeleteTarget(null)}
         title="Delete Domain"
       >
-        <p class="text-sm text-slate-600">
+        <p class="text-sm text-subtle">
           Are you sure you want to delete <strong class="font-mono">{deleteTarget}</strong>?
           This will remove all rules, config, and analytics for this domain.
         </p>

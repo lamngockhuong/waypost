@@ -5,7 +5,7 @@ interface SkeletonProps extends JSX.HTMLAttributes<HTMLDivElement> {}
 export function Skeleton({ class: cls = "", ...props }: SkeletonProps) {
   return (
     <div
-      class={`animate-pulse rounded bg-slate-200 ${cls}`}
+      class={`animate-pulse rounded bg-muted ${cls}`}
       aria-hidden="true"
       {...props}
     />

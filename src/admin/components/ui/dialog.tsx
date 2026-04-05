@@ -17,11 +17,11 @@ export function Dialog({ open, onClose, title, children }: DialogProps) {
         <DialogPanel class="w-full max-w-md rounded-xl bg-surface p-6 shadow-xl transition-all duration-200 data-closed:scale-95 data-closed:opacity-0">
           {title && (
             <div class="mb-4 flex items-center justify-between">
-              <DialogTitle class="text-lg font-semibold text-slate-900">{title}</DialogTitle>
+              <DialogTitle class="text-lg font-semibold text-heading">{title}</DialogTitle>
               <button
                 type="button"
                 onClick={onClose}
-                class="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+                class="flex h-8 w-8 items-center justify-center rounded-lg text-placeholder hover:bg-muted hover:text-subtle"
                 aria-label="Close dialog"
               >
                 <X class="h-4 w-4" />

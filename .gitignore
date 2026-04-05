@@ -1,6 +1,5 @@
 node_modules/
 .wrangler/
-.claude/
 .dev.vars
 dist/
 public/admin/

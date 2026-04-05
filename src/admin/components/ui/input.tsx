@@ -24,13 +24,13 @@ export function Input({ label, error, class: cls = "", id, ...props }: InputProp
   return (
     <div class="space-y-1">
       {label && (
-        <label for={inputId} class="block text-sm font-semibold text-slate-700">
+        <label for={inputId} class="block text-sm font-semibold text-label">
           {label}
         </label>
       )}
       <input
         id={inputId}
-        class={`block w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-50 ${
+        class={`block w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-heading placeholder:text-placeholder focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-50 ${
           error ? "border-destructive" : ""
         } ${cls}`}
         {...props}
@@ -59,13 +59,13 @@ export function Textarea({ label, error, class: cls = "", id, ...props }: Textar
   return (
     <div class="space-y-1">
       {label && (
-        <label for={inputId} class="block text-sm font-semibold text-slate-700">
+        <label for={inputId} class="block text-sm font-semibold text-label">
           {label}
         </label>
       )}
       <textarea
         id={inputId}
-        class={`block w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-50 ${
+        class={`block w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-heading placeholder:text-placeholder focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-50 ${
           error ? "border-destructive" : ""
         } ${cls}`}
         {...props}

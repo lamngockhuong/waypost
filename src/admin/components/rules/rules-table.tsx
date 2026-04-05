@@ -56,7 +56,7 @@ export function RulesTable({ rules, selectedIds, onSelect, onSelectAll, onEdit, 
                 </TableCell>
                 <TableCell class="font-mono text-xs max-w-[200px] truncate">{rule.source}</TableCell>
                 <TableCell class="max-w-[200px]">
-                  <span class="flex items-center gap-1 text-xs text-slate-500 truncate">
+                  <span class="flex items-center gap-1 text-xs text-muted-fg truncate">
                     <ArrowRight class="h-3 w-3 shrink-0" />
                     <span class="truncate">{rule.target}</span>
                   </span>

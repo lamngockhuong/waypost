@@ -92,15 +92,15 @@ export function AnalyticsDashboard({ domain }: AnalyticsDashboardProps) {
         <>
           {/* Total clicks KPI */}
           <Card class="inline-block">
-            <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Total Clicks</p>
-            <p class="mt-1 text-3xl font-mono font-bold text-slate-900">{data.totalClicks.toLocaleString()}</p>
+            <p class="text-xs font-semibold uppercase tracking-wide text-muted-fg">Total Clicks</p>
+            <p class="mt-1 text-3xl font-mono font-bold text-heading">{data.totalClicks.toLocaleString()}</p>
           </Card>
 
           {/* Charts */}
           <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
             {data.byRule.length > 0 && (
               <Card>
-                <h3 class="mb-3 text-sm font-semibold text-slate-700">Clicks by Rule</h3>
+                <h3 class="mb-3 text-sm font-semibold text-label">Clicks by Rule</h3>
                 <BarChart
                   labels={data.byRule.slice(0, 10).map((r) => r.sourcePath || r.redirectId)}
                   data={data.byRule.slice(0, 10).map((r) => r.count)}
@@ -109,7 +109,7 @@ export function AnalyticsDashboard({ domain }: AnalyticsDashboardProps) {
             )}
             {data.byCountry.length > 0 && (
               <Card>
-                <h3 class="mb-3 text-sm font-semibold text-slate-700">Clicks by Country</h3>
+                <h3 class="mb-3 text-sm font-semibold text-label">Clicks by Country</h3>
                 <DoughnutChart
                   labels={data.byCountry.slice(0, 10).map((c) => c.country || "Unknown")}
                   data={data.byCountry.slice(0, 10).map((c) => c.count)}
@@ -121,7 +121,7 @@ export function AnalyticsDashboard({ domain }: AnalyticsDashboardProps) {
           {/* Referrers table */}
           {data.byReferrer.length > 0 && (
             <div>
-              <h3 class="mb-3 text-sm font-semibold text-slate-700">Top Referrers</h3>
+              <h3 class="mb-3 text-sm font-semibold text-label">Top Referrers</h3>
               <Table>
                 <TableHeader>
                   <TableRow>

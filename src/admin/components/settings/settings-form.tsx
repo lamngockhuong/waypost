@@ -61,7 +61,7 @@ export function SettingsForm({ domain }: SettingsFormProps) {
           value={defaultUrl}
           onInput={(e) => setDefaultUrl((e.target as HTMLInputElement).value)}
         />
-        <p class="mt-1 text-xs text-slate-500">Redirect root path to this URL when no rule matches</p>
+        <p class="mt-1 text-xs text-muted-fg">Redirect root path to this URL when no rule matches</p>
       </div>
       <div>
         <Textarea
@@ -72,7 +72,7 @@ export function SettingsForm({ domain }: SettingsFormProps) {
           value={custom404Html}
           onInput={(e) => setCustom404Html((e.target as HTMLTextAreaElement).value)}
         />
-        <p class="mt-1 text-xs text-slate-500">Max 50KB. Shown when no rule matches and no default URL is set.</p>
+        <p class="mt-1 text-xs text-muted-fg">Max 50KB. Shown when no rule matches and no default URL is set.</p>
       </div>
       <Button onClick={handleSave} loading={saving}>
         Save Settings

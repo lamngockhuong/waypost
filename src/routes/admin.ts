@@ -3,10 +3,11 @@ import type { Bindings } from '../types'
 import { getLandingHTML } from '../admin/landing-html'
 
 const admin = new Hono<{ Bindings: Bindings }>()
+const LANDING_HTML = getLandingHTML()
 
 // Landing page (no SPA)
 admin.get('/', (c) => {
-  return c.html(getLandingHTML())
+  return c.html(LANDING_HTML)
 })
 
 // SPA fallback — serve index.html for all /admin/* routes

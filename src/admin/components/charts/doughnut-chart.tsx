@@ -1,10 +1,11 @@
 import { useRef, useEffect } from "preact/hooks"
 import { Chart, DoughnutController, ArcElement, Tooltip, Legend } from "chart.js"
+import { getCssVar } from "../../lib/theme"
 
 Chart.register(DoughnutController, ArcElement, Tooltip, Legend)
 
 const COLORS = [
-  "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd", "#bfdbfe",
+  "#7c3aed", "#8b5cf6", "#a78bfa", "#c4b5fd", "#ddd6fe",
   "#ea580c", "#f97316", "#fb923c", "#fdba74", "#94a3b8",
 ]
 
@@ -19,6 +20,8 @@ export function DoughnutChart({ labels, data }: DoughnutChartProps) {
 
   useEffect(() => {
     if (!canvasRef.current) return
+
+    const textColor = getCssVar("--color-muted-fg", "#8b8598")
 
     if (chartRef.current) {
       chartRef.current.data.labels = labels
@@ -44,7 +47,7 @@ export function DoughnutChart({ labels, data }: DoughnutChartProps) {
         plugins: {
           legend: {
             position: "right",
-            labels: { boxWidth: 12, padding: 8, font: { size: 11 } },
+            labels: { boxWidth: 12, padding: 8, font: { size: 11 }, color: textColor },
           },
         },
       },

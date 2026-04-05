@@ -27,7 +27,7 @@ export function RulesToolbar({
     <div class="flex flex-wrap items-center gap-2">
       {/* Search */}
       <div class="relative flex-1 min-w-[200px]">
-        <Search class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+        <Search class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-placeholder" />
         <Input
           class="pl-10"
           placeholder="Search rules..."
@@ -38,7 +38,7 @@ export function RulesToolbar({
 
       {/* Bulk actions (visible when items selected) */}
       {selectedCount > 0 && (
-        <div class="flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600">
+        <div class="flex items-center gap-2 rounded-lg bg-muted px-3 py-1.5 text-xs font-medium text-subtle">
           <span>{selectedCount} selected</span>
           <Button variant="ghost" size="sm" onClick={onBulkToggle}>Toggle</Button>
           <Button variant="ghost" size="sm" onClick={onBulkDelete}>

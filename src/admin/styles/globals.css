@@ -1,20 +1,62 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #2563eb;
-  --color-primary-hover: #1d4ed8;
-  --color-secondary: #3b82f6;
+  /* Primary brand — Violet */
+  --color-primary: #7c3aed;
+  --color-primary-hover: #6d28d9;
+
+  /* Semantic status */
   --color-accent: #ea580c;
   --color-destructive: #dc2626;
   --color-success: #16a34a;
+
+  /* Surfaces */
   --color-surface: #ffffff;
-  --color-muted: #e9eff8;
-  --color-border: #e2e8f0;
+  --color-surface-hover: #f5f3ff;
+  --color-background: #faf8ff;
+  --color-muted: #ede9fe;
+  --color-border: #e5e2f0;
+
+  /* Text hierarchy */
+  --color-foreground: #1e1b3a;
+  --color-heading: #1e1b3a;
+  --color-label: #4a4560;
+  --color-subtle: #6b6580;
+  --color-muted-fg: #8b8598;
+  --color-placeholder: #a8a3b8;
+
+  /* Typography */
   --font-sans: "Fira Sans", sans-serif;
   --font-mono: "Fira Code", monospace;
+
+  /* Animations */
   --animate-slide-in-right: slideInRight 250ms ease-out;
   --animate-slide-in-up: slideInUp 200ms ease-out;
   --animate-fade-in: fadeIn 150ms ease-out;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primary: #a78bfa;
+    --color-primary-hover: #8b5cf6;
+    --color-accent: #fb923c;
+    --color-destructive: #ef4444;
+    --color-success: #22c55e;
+
+    --color-surface: #1c1930;
+    --color-surface-hover: #262340;
+    --color-background: #131125;
+    --color-muted: #2a2745;
+    --color-border: #3a3755;
+
+    --color-foreground: #e8e5f5;
+    --color-heading: #f5f3ff;
+    --color-label: #c8c3d8;
+    --color-subtle: #a8a3b8;
+    --color-muted-fg: #8b8598;
+    --color-placeholder: #6b6580;
+  }
 }
 
 @keyframes slideInRight {
@@ -33,16 +75,20 @@
 }
 
 @layer base {
+  html {
+    color-scheme: light dark;
+  }
+
   /* Smooth scrollbar */
   ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb { background: var(--color-placeholder); border-radius: 9999px; }
 
-  /* Touch optimization — remove 300ms tap delay */
+  /* Touch optimization */
   button, a, [role="button"], [tabindex] {
     touch-action: manipulation;
   }
 
-  /* Prevent overscroll bounce on scrollable panels */
+  /* Prevent overscroll bounce */
   .overscroll-contain {
     overscroll-behavior: contain;
   }

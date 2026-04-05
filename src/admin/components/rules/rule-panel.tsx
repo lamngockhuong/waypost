@@ -25,7 +25,7 @@ export function RulePanel({ open, rule, onClose, onSubmit }: RulePanelProps) {
             <button
               type="button"
               onClick={onClose}
-              class="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100"
+              class="flex h-8 w-8 items-center justify-center rounded-lg text-placeholder hover:bg-muted"
               aria-label="Close panel"
             >
               <X class="h-4 w-4" />

@@ -26,10 +26,10 @@ export function DomainCard({ domain, ruleCount, clickCount, onDelete }: DomainCa
           onClick={() => onDelete(domain)}
           aria-label={`Delete ${domain}`}
         >
-          <Trash2 class="h-4 w-4 text-slate-400" />
+          <Trash2 class="h-4 w-4 text-placeholder" />
         </Button>
       </div>
-      <div class="flex gap-4 text-sm text-slate-500">
+      <div class="flex gap-4 text-sm text-muted-fg">
         <span>{ruleCount} {ruleCount === 1 ? "rule" : "rules"}</span>
         <span>{clickCount} {clickCount === 1 ? "click" : "clicks"}</span>
       </div>

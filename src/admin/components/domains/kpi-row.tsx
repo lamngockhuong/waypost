@@ -9,11 +9,11 @@ interface KpiCardProps {
 
 function KpiCard({ label, value, loading }: KpiCardProps) {
   return (
-    <Card class="min-w-[140px] flex-1 snap-start">
-      <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</p>
+    <Card class="min-w-0">
+      <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wide text-muted-fg truncate">{label}</p>
       {loading
-        ? <Skeleton class="mt-1 h-8 w-20" />
-        : <p class="mt-1 text-2xl font-mono font-bold text-slate-900">{value}</p>}
+        ? <Skeleton class="mt-1 h-7 w-12" />
+        : <p class="mt-1 text-xl sm:text-2xl font-mono font-bold text-heading">{value}</p>}
     </Card>
   )
 }
@@ -35,7 +35,7 @@ export function KpiRow({ domains, stats, loading }: KpiRowProps) {
   const totalClicks = stats ? Array.from(stats.values()).reduce((sum, s) => sum + s.clicks, 0) : 0
 
   return (
-    <div class="flex gap-3 overflow-x-auto pb-1 snap-x mt-4" aria-busy={loading}>
+    <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 mt-4" aria-busy={loading}>
       <KpiCard label="Domains" value={totalDomains} loading={loading} />
       <KpiCard label="Total Rules" value={totalRules} loading={loading} />
       <KpiCard label="Clicks (24h)" value={totalClicks} loading={loading} />

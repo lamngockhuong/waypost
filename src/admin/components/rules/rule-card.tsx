@@ -27,7 +27,7 @@ export function RuleCard({ rule, selected, onSelect, onEdit, onDelete, onToggle 
           />
           <div class="min-w-0">
             <p class="truncate font-mono text-sm font-semibold">{rule.source}</p>
-            <div class="flex items-center gap-1 text-xs text-slate-500">
+            <div class="flex items-center gap-1 text-xs text-muted-fg">
               <ArrowRight class="h-3 w-3 shrink-0" />
               <span class="truncate">{rule.target}</span>
             </div>

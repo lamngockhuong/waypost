@@ -34,14 +34,14 @@ export function DateRangePicker({ from, to, onFromChange, onToChange, onPreset, 
       <div class="flex items-center gap-1.5 text-sm">
         <input
           type="date"
-          class="rounded-lg border border-border bg-surface px-2 py-1.5 text-sm"
+          class="rounded-lg border border-border bg-surface px-2 py-1.5 text-sm text-foreground"
           value={from}
           onChange={(e) => onFromChange((e.target as HTMLInputElement).value)}
         />
-        <span class="text-slate-400">to</span>
+        <span class="text-placeholder">to</span>
         <input
           type="date"
-          class="rounded-lg border border-border bg-surface px-2 py-1.5 text-sm"
+          class="rounded-lg border border-border bg-surface px-2 py-1.5 text-sm text-foreground"
           value={to}
           onChange={(e) => onToChange((e.target as HTMLInputElement).value)}
         />
