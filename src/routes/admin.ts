@@ -1,16 +1,21 @@
 import { Hono } from 'hono'
 import type { Bindings } from '../types'
-import { getAdminHTML } from '../admin/html'
+import { getLandingHTML } from '../admin/landing-html'
 
 const admin = new Hono<{ Bindings: Bindings }>()
 
+// Landing page (no SPA)
 admin.get('/', (c) => {
-  return c.html(getAdminHTML())
+  return c.html(getLandingHTML())
 })
 
-// Serve admin for any sub-path (SPA hash routing)
-admin.get('/*', (c) => {
-  return c.html(getAdminHTML())
+// SPA fallback — serve index.html for all /admin/* routes
+admin.get('/*', async (c) => {
+  const url = new URL('/admin/index.html', c.req.url)
+  const response = await c.env.ASSETS.fetch(url)
+  return new Response(response.body, {
+    headers: { 'Content-Type': 'text/html; charset=utf-8' },
+  })
 })
 
 export { admin }

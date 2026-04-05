@@ -17,5 +17,5 @@
     "rootDir": "src"
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist", ".wrangler"]
+  "exclude": ["node_modules", "dist", ".wrangler", "src/admin/**/*.tsx", "public"]
 }

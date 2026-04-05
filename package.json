@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
+    "admin:dev": "vite --config src/admin/vite.config.ts dev src/admin",
+    "admin:build": "vite --config src/admin/vite.config.ts build src/admin",
+    "deploy": "pnpm admin:build && wrangler deploy",
     "d1:migrate": "wrangler d1 migrations apply redirect-analytics",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p src/admin/tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest",
     "fmt": "dprint fmt",
@@ -23,15 +25,24 @@
   "license": "MIT",
   "packageManager": "pnpm@10.29.3",
   "dependencies": {
-    "hono": "4.12.3"
+    "@headlessui/react": "2.2.9",
+    "chart.js": "4.5.1",
+    "hono": "4.12.10",
+    "preact": "10.29.1",
+    "wouter": "3.9.0"
   },
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "0.12.18",
-    "@cloudflare/workers-types": "4.20260301.1",
-    "dprint": "0.52.0",
-    "typescript": "5.9.3",
-    "vitest": "3.2.4",
-    "wrangler": "4.69.0"
+    "@cloudflare/vitest-pool-workers": "0.14.1",
+    "@cloudflare/workers-types": "4.20260405.1",
+    "@preact/preset-vite": "2.10.5",
+    "@tailwindcss/vite": "4.2.2",
+    "dprint": "0.53.2",
+    "lucide-preact": "1.7.0",
+    "tailwindcss": "4.2.2",
+    "typescript": "6.0.2",
+    "vite": "8.0.3",
+    "vitest": "4.1.2",
+    "wrangler": "4.80.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

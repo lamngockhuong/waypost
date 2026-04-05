@@ -4,16 +4,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Waypost is a multi-domain URL redirect system running on Cloudflare Workers. It uses Hono as the web framework, KV for redirect rules/config storage, D1 for click analytics, and a Preact + HTM + Signals admin SPA (~6KB, no build step) served inline.
+Waypost is a multi-domain URL redirect system running on Cloudflare Workers. It uses Hono as the web framework, KV for redirect rules/config storage, D1 for click analytics, and a Preact + Tailwind CSS admin SPA built with Vite, served as static assets from the edge.
 
 ## Commands
 
 ```bash
 pnpm dev              # Start local dev server (wrangler) at localhost:8787
+pnpm admin:dev        # Start Vite dev server with HMR for admin SPA
+pnpm admin:build      # Build admin SPA to public/admin/
 pnpm test             # Run tests once (vitest + @cloudflare/vitest-pool-workers)
 pnpm test:watch       # Run tests in watch mode
-pnpm typecheck        # TypeScript type checking (tsc --noEmit)
-pnpm deploy           # Deploy to Cloudflare Workers
+pnpm typecheck        # TypeScript type checking (server + admin tsconfigs)
+pnpm deploy           # Build admin + deploy to Cloudflare Workers
 pnpm d1:migrate       # Apply D1 migrations
 ```
 
@@ -26,7 +28,7 @@ pnpm d1:migrate       # Apply D1 migrations
 **Route groups** (`src/routes/`):
 
 - `api.ts` — REST API for CRUD on domains, rules, config, analytics, import/export
-- `admin.ts` — Serves the inline Preact SPA
+- `admin.ts` — Landing page + SPA fallback via ASSETS binding
 - `redirect.ts` — Catch-all handler: looks up domain in KV, matches rules by priority, records click via `waitUntil`, returns redirect or 404
 
 **Services** (`src/services/`):
@@ -35,16 +37,14 @@ pnpm d1:migrate       # Apply D1 migrations
 - `rule-matcher.ts` — URLPattern-based matching with LRU-style cache (500 entries). Supports path, wildcard, and subdomain types. Priority-sorted, first match wins.
 - `analytics.ts` — D1 write (non-blocking via `waitUntil`) and read for click events
 
-**Admin UI** (`src/admin/html.ts`): Single-file inline HTML with Preact + HTM + Signals loaded from CDN. No build step.
-
-**Bindings** (defined in `src/types.ts`):
-e-file inline HTML with Preact + HTM + Signals loaded from CDN. No build step.
+**Admin UI** (`src/admin/`): Preact + Tailwind CSS SPA built with Vite. Served as static assets via Cloudflare Workers Static Assets (`[assets]` in wrangler.toml). Features: collapsible sidebar, domain dashboard with KPI cards, domain detail with Rules/Settings/Analytics tabs, Chart.js analytics, mobile-responsive. Dev: `pnpm admin:dev` (HMR). Build: `pnpm admin:build` → `public/admin/`.
 
 **Bindings** (defined in `src/types.ts`):
 
 - `REDIRECTS_KV` — KV namespace for domains, rules, config
 - `ANALYTICS_DB` — D1 database for click_events
 - `ACCESS_AUD` / `ACCESS_TEAM` — Cloudflare Access config
+- `ASSETS` — Fetcher for static assets (admin SPA)
 
 **KV key schema**: `domains` (string[]), `rules:{domain}` (RedirectRule[]), `config:{domain}` (DomainConfig)
 

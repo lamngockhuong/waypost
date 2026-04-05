@@ -4,8 +4,10 @@ import type { Bindings } from '../types'
 import { getRulesForDomain, getDomainConfig } from '../services/kv-store'
 import { matchAllRules } from '../services/rule-matcher'
 import { extractClickData, recordClick } from '../services/analytics'
+import { getLandingHTML } from '../admin/landing-html'
 
 const redirect = new Hono<{ Bindings: Bindings }>()
+const LANDING_HTML = getLandingHTML()
 
 // C2 fix: CSP header to prevent XSS in custom 404 HTML
 async function handleNotFound(c: Context<{ Bindings: Bindings }>, hostname: string) {
@@ -22,6 +24,14 @@ async function handleNotFound(c: Context<{ Bindings: Bindings }>, hostname: stri
   }
   return c.notFound()
 }
+
+// Root path: check domain config for defaultUrl, otherwise show landing page
+redirect.get('/', async (c) => {
+  const hostname = new URL(c.req.url).hostname
+  const config = await getDomainConfig(c.env.REDIRECTS_KV, hostname)
+  if (config?.defaultUrl) return c.redirect(config.defaultUrl, 302)
+  return c.html(LANDING_HTML)
+})
 
 redirect.all('*', async (c) => {
   const url = new URL(c.req.url)

@@ -3,6 +3,7 @@ export type Bindings = {
   ANALYTICS_DB: D1Database
   ACCESS_AUD: string
   ACCESS_TEAM: string
+  ASSETS: Fetcher
 }
 
 export type RedirectType = 'path' | 'wildcard' | 'subdomain'

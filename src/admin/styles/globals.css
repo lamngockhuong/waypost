@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-secondary: #3b82f6;
+  --color-accent: #ea580c;
+  --color-destructive: #dc2626;
+  --color-success: #16a34a;
+  --color-surface: #ffffff;
+  --color-muted: #e9eff8;
+  --color-border: #e2e8f0;
+  --font-sans: "Fira Sans", sans-serif;
+  --font-mono: "Fira Code", monospace;
+  --animate-slide-in-right: slideInRight 250ms ease-out;
+  --animate-slide-in-up: slideInUp 200ms ease-out;
+  --animate-fade-in: fadeIn 150ms ease-out;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideInUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@layer base {
+  /* Smooth scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+
+  /* Touch optimization — remove 300ms tap delay */
+  button, a, [role="button"], [tabindex] {
+    touch-action: manipulation;
+  }
+
+  /* Prevent overscroll bounce on scrollable panels */
+  .overscroll-contain {
+    overscroll-behavior: contain;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

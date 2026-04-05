@@ -13,6 +13,10 @@ database_name = "redirect-analytics"
 database_id = "<placeholder>"
 migrations_dir = "migrations"
 
+[assets]
+directory = "public"
+not_found_handling = "none"
+
 [vars]
 ACCESS_AUD = ""
 ACCESS_TEAM = ""
