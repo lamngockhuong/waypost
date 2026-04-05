@@ -1,5 +1,5 @@
 import { useLocation, Link } from "wouter"
-import { Globe } from "lucide-preact"
+import { WaypostLogo } from "../icons/waypost-logo"
 import { navItems } from "../../lib/nav-items"
 
 export function Sidebar() {
@@ -9,7 +9,7 @@ export function Sidebar() {
     <aside class="fixed left-0 top-0 z-30 flex h-dvh flex-col border-r border-border bg-surface max-lg:hidden lg:w-60 transition-[width] duration-200">
       {/* Logo */}
       <Link href="/" class="flex h-14 items-center gap-2 border-b border-border px-4">
-        <Globe class="h-6 w-6 shrink-0 text-primary" />
+        <WaypostLogo class="h-6 w-6 shrink-0 text-primary" />
         <span class="text-lg font-bold font-mono text-primary max-lg:hidden">Waypost</span>
       </Link>
 

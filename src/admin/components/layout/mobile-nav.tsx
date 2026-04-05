@@ -1,6 +1,7 @@
 import { Dialog, DialogPanel, DialogBackdrop } from "@headlessui/react"
 import { useLocation, Link } from "wouter"
-import { Globe, Menu, X } from "lucide-preact"
+import { Menu, X } from "lucide-preact"
+import { WaypostLogo } from "../icons/waypost-logo"
 import { useState } from "preact/hooks"
 import { navItems } from "../../lib/nav-items"
 
@@ -21,7 +22,7 @@ export function MobileNav() {
           <Menu class="h-5 w-5" />
         </button>
         <Link href="/" class="flex items-center gap-2">
-          <Globe class="h-5 w-5 text-primary" />
+          <WaypostLogo class="h-5 w-5 text-primary" />
           <span class="text-lg font-bold font-mono text-primary">Waypost</span>
         </Link>
       </header>
@@ -32,7 +33,7 @@ export function MobileNav() {
         <DialogPanel class="fixed inset-y-0 left-0 w-[280px] bg-surface shadow-xl transition-transform duration-250 data-closed:-translate-x-full">
           <div class="flex h-14 items-center justify-between border-b border-border px-4">
             <span class="flex items-center gap-2">
-              <Globe class="h-5 w-5 text-primary" />
+              <WaypostLogo class="h-5 w-5 text-primary" />
               <span class="text-lg font-bold font-mono text-primary">Waypost</span>
             </span>
             <button

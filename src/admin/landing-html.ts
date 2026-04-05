@@ -6,6 +6,7 @@ export function getLandingHTML(): string {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
   <title>Waypost — URL Redirect System</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cstyle%3E%40media(prefers-color-scheme:dark)%7B.bg%7Bfill:url(%23gd)%7D%7D%3C/style%3E%3Cdefs%3E%3ClinearGradient id='gl' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%237c3aed'/%3E%3Cstop offset='100%25' stop-color='%23a78bfa'/%3E%3C/linearGradient%3E%3ClinearGradient id='gd' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23a78bfa'/%3E%3Cstop offset='100%25' stop-color='%237c3aed'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect class='bg' width='24' height='24' rx='5' fill='url(%23gl)'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='2,2 5,15 9.5,5 13,15'/%3E%3Ccircle cx='2' cy='2' r='1.8' fill='%23fff' opacity='0.15' stroke='none'/%3E%3Ccircle cx='2' cy='2' r='0.9' fill='%23fff' stroke='none'/%3E%3Ccircle cx='9.5' cy='5' r='3' fill='%23fff' opacity='0.15' stroke='none'/%3E%3Ccircle cx='9.5' cy='5' r='1.2' fill='%23fff' stroke='none'/%3E%3Cpath d='M13 15 Q15.5 8 19 4.5 M16.8 5 L19 4.5 L18.5 6.7'/%3E%3Cpath d='M13 15 Q16.5 10.5 20 8.5 M18 8 L20 8.5 L19 10' opacity='0.6'/%3E%3Cpath d='M13 15 Q17 15.5 20 15 M18.5 13.5 L20 15 L18.5 16.5' opacity='0.35'/%3E%3C/g%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500;700&family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -56,7 +57,7 @@ export function getLandingHTML(): string {
 
     /* Features */
     .features{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:680px;width:100%;animation:fadeUp .6s .15s ease-out both}
-    .feature{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;transition:all .2s;position:relative;overflow:hidden}
+    .feature{background:color-mix(in srgb,var(--surface) 85%,transparent);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:16px;padding:24px;transition:all .2s;position:relative;overflow:hidden}
     .feature:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(124,58,237,.08);border-color:var(--primary)}
     .feature-icon{width:40px;height:40px;border-radius:10px;background:var(--primary-glow);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
     .feature-icon svg{width:20px;height:20px;color:var(--primary)}
@@ -69,6 +70,34 @@ export function getLandingHTML(): string {
     .footer a{color:var(--primary);text-decoration:none}
     .footer a:hover{text-decoration:underline}
 
+    /* Background logo */
+    .bg-logo{position:fixed;top:50%;left:50%;transform:translate(-50%,-55%);width:min(95vw,900px);height:min(95vw,900px);z-index:0;pointer-events:none;opacity:.08}
+    .bg-logo svg{width:100%;height:100%}
+    .bg-logo .glow1{animation:pulse1 3s ease-in-out infinite}
+    .bg-logo .glow2{animation:pulse2 4s ease-in-out infinite}
+    .bg-logo .ring1{animation:ring1 3s ease-in-out infinite}
+    .bg-logo .ring2{animation:ring2 4s ease-in-out infinite}
+    .bg-logo .line1,.bg-logo .line2,.bg-logo .line3{will-change:stroke-dashoffset,opacity}
+    .bg-logo .line1{stroke-dasharray:20;stroke-dashoffset:20;animation:drawL1 8s cubic-bezier(.4,0,.2,1) infinite}
+    .bg-logo .tip1{opacity:0;animation:popT1 8s ease infinite}
+    .bg-logo .line2{stroke-dasharray:18;stroke-dashoffset:18;animation:drawL2 8s cubic-bezier(.4,0,.2,1) infinite}
+    .bg-logo .tip2{opacity:0;animation:popT2 8s ease infinite}
+    .bg-logo .line3{stroke-dasharray:15;stroke-dashoffset:15;animation:drawL3 8s cubic-bezier(.4,0,.2,1) infinite}
+    .bg-logo .tip3{opacity:0;animation:popT3 8s ease infinite}
+    @keyframes pulse1{0%,100%{r:2;opacity:.2}50%{r:4;opacity:.5}}
+    @keyframes pulse2{0%,100%{r:3;opacity:.2}50%{r:6;opacity:.45}}
+    @keyframes ring1{0%,100%{r:3;opacity:.15;stroke-width:.3}50%{r:5.5;opacity:0;stroke-width:.1}}
+    @keyframes ring2{0%,100%{r:4.5;opacity:.15;stroke-width:.3}50%{r:8;opacity:0;stroke-width:.1}}
+    /* Arrow 1: draw, hold, hide instant, reset while hidden */
+    @keyframes drawL1{0%{stroke-dashoffset:20;opacity:0}2%{opacity:1}18%{stroke-dashoffset:0;opacity:1}69%{stroke-dashoffset:0;opacity:1}69.01%{stroke-dashoffset:0;opacity:0}80%{stroke-dashoffset:0;opacity:0}80.01%{stroke-dashoffset:20;opacity:0}100%{stroke-dashoffset:20;opacity:0}}
+    @keyframes popT1{0%,17%{opacity:0}20%{opacity:1}69%{opacity:1}69.01%{opacity:0}100%{opacity:0}}
+    /* Arrow 2 */
+    @keyframes drawL2{0%,22%{stroke-dashoffset:18;opacity:0}24%{opacity:.6}38%{stroke-dashoffset:0;opacity:.6}69%{stroke-dashoffset:0;opacity:.6}69.01%{stroke-dashoffset:0;opacity:0}80%{stroke-dashoffset:0;opacity:0}80.01%{stroke-dashoffset:18;opacity:0}100%{stroke-dashoffset:18;opacity:0}}
+    @keyframes popT2{0%,36%{opacity:0}40%{opacity:.6}69%{opacity:.6}69.01%{opacity:0}100%{opacity:0}}
+    /* Arrow 3 */
+    @keyframes drawL3{0%,42%{stroke-dashoffset:15;opacity:0}44%{opacity:.35}56%{stroke-dashoffset:0;opacity:.35}69%{stroke-dashoffset:0;opacity:.35}69.01%{stroke-dashoffset:0;opacity:0}80%{stroke-dashoffset:0;opacity:0}80.01%{stroke-dashoffset:15;opacity:0}100%{stroke-dashoffset:15;opacity:0}}
+    @keyframes popT3{0%,54%{opacity:0}58%{opacity:.35}69%{opacity:.35}69.01%{opacity:0}100%{opacity:0}}
+
     /* Animations */
     @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
@@ -78,13 +107,37 @@ export function getLandingHTML(): string {
 <body>
   <div class="bg-grid"></div>
   <div class="bg-glow"></div>
+  <div class="bg-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="2,2 5,15 9.5,5 13,15"/>
+      <circle class="ring1" cx="2" cy="2" r="3" fill="none" stroke="var(--primary)" opacity=".15"/>
+      <circle class="glow1" cx="2" cy="2" r="2" fill="var(--primary)" opacity=".2" stroke="none"/>
+      <circle cx="2" cy="2" r="0.9" fill="var(--primary)" stroke="none"/>
+      <circle class="ring2" cx="9.5" cy="5" r="4.5" fill="none" stroke="var(--primary)" opacity=".15"/>
+      <circle class="glow2" cx="9.5" cy="5" r="3" fill="var(--primary)" opacity=".2" stroke="none"/>
+      <circle cx="9.5" cy="5" r="1.2" fill="var(--primary)" stroke="none"/>
+      <path class="line1" d="M13 15 Q15.5 8 19 4.5"/>
+      <polyline class="tip1" points="16.8,5 19,4.5 18.5,6.7"/>
+      <path class="line2" d="M13 15 Q16.5 10.5 20 8.5"/>
+      <polyline class="tip2" points="18,8 20,8.5 19,10"/>
+      <path class="line3" d="M13 15 Q17 15.5 20 15"/>
+      <polyline class="tip3" points="18.5,13.5 20,15 18.5,16.5"/>
+    </svg>
+  </div>
 
   <div class="page">
     <div class="hero">
       <div class="logo-wrap">
         <div class="logo-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5a17.92 17.92 0 0 1-8.716-2.247m0 0A8.966 8.966 0 0 1 3 12c0-1.264.26-2.466.73-3.558"/>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="2,2 5,15 9.5,5 13,15"/>
+            <circle cx="2" cy="2" r="1.8" fill="#fff" opacity="0.15" stroke="none"/>
+            <circle cx="2" cy="2" r="0.9" fill="#fff" stroke="none"/>
+            <circle cx="9.5" cy="5" r="3" fill="#fff" opacity="0.15" stroke="none"/>
+            <circle cx="9.5" cy="5" r="1.2" fill="#fff" stroke="none"/>
+            <path d="M13 15 Q15.5 8 19 4.5 M16.8 5 L19 4.5 L18.5 6.7"/>
+            <path d="M13 15 Q16.5 10.5 20 8.5 M18 8 L20 8.5 L19 10" opacity="0.6"/>
+            <path d="M13 15 Q17 15.5 20 15 M18.5 13.5 L20 15 L18.5 16.5" opacity="0.35"/>
           </svg>
         </div>
         <span class="logo-text">Waypost</span>
