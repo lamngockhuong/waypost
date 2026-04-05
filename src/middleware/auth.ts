@@ -57,7 +57,7 @@ export const accessAuth = createMiddleware<{ Bindings: Bindings }>(
 
       let verified = false
       for (const key of keys) {
-        if (await crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, sig, data)) {
+        if (await crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, sig.buffer as ArrayBuffer, data)) {
           verified = true
           break
         }
