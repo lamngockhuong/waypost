@@ -6,7 +6,9 @@
 - **Module System**: ES Modules (ESM)
 - **Runtime**: Cloudflare Workers (Node.js compat mode)
 - **Package Manager**: pnpm 10.29.3+
-- **Testing**: Vitest 3.2.4 + @cloudflare/vitest-pool-workers
+- **Testing**: Vitest 4.1.2 + @cloudflare/vitest-pool-workers
+- **Frontend Build**: Vite 8.0.3 with @preact/preset-vite, Tailwind CSS 4.2.2
+- **Frontend Framework**: Preact 10.29.1, wouter 3.9.0 (routing), @headlessui/react, lucide-preact (icons), Chart.js 4.5.1 (analytics)
 
 ## File Organization
 
@@ -19,13 +21,36 @@ src/
 ├── routes/
 │   ├── redirect.ts             # Catch-all redirect handler
 │   ├── api.ts                  # REST API endpoints (domain, rule, config, analytics)
-│   └── admin.ts                # Admin UI route
+│   └── admin.ts                # Admin UI route (SPA fallback)
 ├── services/
 │   ├── kv-store.ts             # KV read/write operations
 │   ├── rule-matcher.ts         # URLPattern matching logic
 │   └── analytics.ts            # D1 queries, click data extraction
 └── admin/
-    └── html.ts                 # Inline Preact+HTM SPA
+    ├── main.tsx                # Entry point
+    ├── app.tsx                 # Main app component
+    ├── index.html              # SPA HTML shell
+    ├── landing-html.ts         # Landing page HTML generator
+    ├── vite.config.ts          # Vite build config
+    ├── tsconfig.json           # Admin-specific TypeScript config
+    ├── styles/
+    │   └── globals.css         # Tailwind CSS with violet theme + dark mode
+    ├── lib/
+    │   ├── api.ts              # API client
+    │   ├── types.ts            # Frontend types
+    │   └── theme.ts            # Theme utilities
+    ├── pages/
+    │   ├── domains.tsx         # Domains dashboard
+    │   ├── domain-detail.tsx   # Domain detail page
+    │   └── not-found.tsx       # 404 page
+    └── components/
+        ├── layout/             # Header, sidebar, mobile nav
+        ├── ui/                 # Reusable UI components
+        ├── domains/            # Domain-related components
+        ├── rules/              # Rule management components
+        ├── analytics/          # Analytics dashboard components
+        ├── charts/             # Chart components (Chart.js)
+        └── settings/           # Settings components
 
 tests/
 └── *.test.ts                   # Vitest test files
@@ -341,17 +366,18 @@ Before deployment:
 
 ```bash
 pnpm install           # Install dependencies
-pnpm dev               # Start wrangler dev server
+pnpm dev               # Start wrangler dev server (Worker on localhost:8787)
+pnpm admin:dev         # Start Vite dev server with HMR for admin SPA
 pnpm test              # Run tests
-pnpm typecheck         # Verify types
+pnpm typecheck         # Verify types (server + admin)
 ```
 
 ### Deployment Checklist
 
 ```bash
-pnpm typecheck         # Must pass
+pnpm typecheck         # Must pass (both src/ and src/admin/)
 pnpm test              # Must pass
-pnpm deploy            # Deploys to Cloudflare
+pnpm deploy            # Builds admin SPA then deploys to Cloudflare
 ```
 
 ### Configuration (wrangler.toml)
@@ -369,33 +395,71 @@ id = "<placeholder>"
 [[d1_databases]]
 binding = "ANALYTICS_DB"
 database_name = "redirect-analytics"
+
+[assets]
+directory = "public"
+binding = "ASSETS"
 ```
 
-## Documentation Standards
+### Admin SPA Build
 
-- Comment complex algorithms (rule matching, capture group replacement)
-- Explain "why" in comments, not "what" (code is self-explanatory)
-- Use JSDoc for exported functions (parameters, returns, throws)
-- Keep comments up-to-date with code changes
+The admin SPA is built with Vite and served as static assets:
 
-### Example
-
-### Configuration (wrangler.toml)
-
-```toml
-name = "waypost"
-main = "src/index.ts"
-compatibility_date = "2025-01-01"
-compatibility_flags = ["nodejs_compat"]
-
-[[kv_namespaces]]
-binding = "REDIRECTS_KV"
-id = "<placeholder>"
-
-[[d1_databases]]
-binding = "ANALYTICS_DB"
-database_name = "redirect-analytics"
+```bash
+pnpm admin:build       # Builds to public/admin/
+                       # Outputs: index.html, assets/, etc.
 ```
+
+Configuration in `src/admin/vite.config.ts`:
+
+- Base path: `/admin/`
+- Output dir: `public/admin/` (served via ASSETS binding)
+- Preact + Vite preset for optimized builds
+- Tailwind CSS 4 with @tailwindcss/vite for JIT compilation
+- Alias react/react-dom to preact/compat for compatibility
+
+## Frontend Development
+
+### Preact Component Patterns
+
+- Use functional components with hooks
+- Component file naming: `{component-name}.tsx`
+- Colocate styles: Use `class="..."` with Tailwind CSS utilities
+- Type components: Define interfaces in same file or `lib/types.ts`
+
+### Styling
+
+- **Framework**: Tailwind CSS 4 with `@tailwindcss/vite` plugin
+- **Theme**: Violet primary color (#7c3aed light, #a78bfa dark)
+- **Dark Mode**: Automatic via `prefers-color-scheme: dark` media query
+- **Custom Variables**: Defined in `src/admin/styles/globals.css` as `--color-*`
+
+Example:
+
+```tsx
+// Component with Tailwind
+export function Button({ children }: { children: string }) {
+  return (
+    <button className="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary-hover transition">
+      {children}
+    </button>
+  )
+}
+```
+
+### Routing
+
+- **Framework**: wouter for client-side routing
+- **Base path**: `/admin` (configured in vite.config.ts)
+- **Hash-based**: Routes via URL hash for SPA navigation without server redirects
+
+### API Client
+
+Located in `src/admin/lib/api.ts`:
+
+- Fetch wrapper with auth headers
+- Type-safe request/response handling
+- Error handling with try-catch
 
 ## Documentation Standards
 

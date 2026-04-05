@@ -14,30 +14,31 @@
 
 ## Features
 
-| Feature               | Description                                                                |
-| --------------------- | -------------------------------------------------------------------------- |
-| Multi-domain support  | Manage redirects across any number of domains                              |
-| Pattern matching      | Path, wildcard, and subdomain-level rules via URLPattern API               |
-| Priority-based rules  | Higher priority rules evaluated first, first match wins                    |
-| Query string handling | Optional `preserveQuery` flag to merge request params with redirect target |
-| Click analytics       | Non-blocking D1 writes capturing country, device, referrer per click       |
-| Custom 404 pages      | Per-domain HTML customization with CSP protection                          |
-| Default fallback URLs | Domain-level fallback for unmatched requests                               |
-| Rule export/import    | JSON-based backup and migration                                            |
-| Admin UI              | Preact + HTM SPA (~6KB) served inline, no build step                       |
+| Feature               | Description                                                                          |
+| --------------------- | ------------------------------------------------------------------------------------ |
+| Multi-domain support  | Manage redirects across any number of domains                                        |
+| Pattern matching      | Path, wildcard, and subdomain-level rules via URLPattern API                         |
+| Priority-based rules  | Higher priority rules evaluated first, first match wins                              |
+| Query string handling | Optional `preserveQuery` flag to merge request params with redirect target           |
+| Click analytics       | Non-blocking D1 writes capturing country, device, referrer per click                 |
+| Custom 404 pages      | Per-domain HTML customization with CSP protection                                    |
+| Default fallback URLs | Domain-level fallback for unmatched requests                                         |
+| Rule export/import    | JSON-based backup and migration                                                      |
+| Admin UI              | Preact + Vite SPA with Tailwind CSS, violet theme, dark mode, built to static assets |
+| Landing Page          | Responsive marketing landing page with violet theme and dark mode                    |
 
 ## Technology Stack
 
-| Component          | Technology                               | Rationale                                    |
-| ------------------ | ---------------------------------------- | -------------------------------------------- |
-| **Runtime**        | Cloudflare Workers                       | Global edge deployment, serverless           |
-| **Framework**      | Hono v4                                  | Lightweight, type-safe routing               |
-| **KV Storage**     | Cloudflare KV                            | Rule and config persistence, edge-accessible |
-| **Analytics DB**   | Cloudflare D1 (SQLite)                   | Structured analytics queries, low cost       |
-| **Authentication** | Cloudflare Access                        | JWT token verification, enterprise-ready     |
-| **Admin UI**       | Preact + HTM                             | No build step, minimal bundle, vanilla JS    |
-| **Language**       | TypeScript strict mode                   | Type safety, better DX                       |
-| **Testing**        | Vitest + @cloudflare/vitest-pool-workers | Local Worker simulation                      |
+| Component          | Technology                               | Rationale                                     |
+| ------------------ | ---------------------------------------- | --------------------------------------------- |
+| **Runtime**        | Cloudflare Workers                       | Global edge deployment, serverless            |
+| **Framework**      | Hono v4                                  | Lightweight, type-safe routing                |
+| **KV Storage**     | Cloudflare KV                            | Rule and config persistence, edge-accessible  |
+| **Analytics DB**   | Cloudflare D1 (SQLite)                   | Structured analytics queries, low cost        |
+| **Authentication** | Cloudflare Access                        | JWT token verification, enterprise-ready      |
+| **Admin UI**       | Preact + Vite + Tailwind CSS             | Modern SPA with build optimization, dark mode |
+| **Language**       | TypeScript strict mode                   | Type safety, better DX                        |
+| **Testing**        | Vitest + @cloudflare/vitest-pool-workers | Local Worker simulation                       |
 
 ## Deployment Target
 

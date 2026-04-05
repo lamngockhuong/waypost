@@ -22,38 +22,50 @@ Worker Receives Request
 ## Component Architecture
 
 ```bash
-┌─────────────────────────────────────────────────────┐
-│           Cloudflare Workers Isolate                │
-├─────────────────────────────────────────────────────┤
-│  index.ts (Hono App Router)                         │
-├─────────────────────────────────────────────────────┤
-│                                                     │
-│  Middleware Layer:                                  │
-│  ├─ CORS (api/* routes only, same-origin)           │
-│  └─ Auth (Cloudflare Access JWT verification)       │
-│                                                     │
-│  Route Handlers:                                    │
-│  ├─ redirect.ts      (catch-all, matching+redirect) │
-│  ├─ api.ts           (domain, rule, config, stats)  │
-│  └─ admin.ts         (serve admin HTML)             │
-│                                                     │
-│  Service Layer:                                     │
-│  ├─ kv-store.ts      (KV read/write ops)            │
-│  ├─ rule-matcher.ts  (URLPattern matching logic)    │
-│  └─ analytics.ts     (D1 queries and data capture)  │
-│                                                     │
-│  Middleware:                                        │
-│  └─ auth.ts          (JWT verification, JWKS cache) │
-│                                                     │
-│  Admin UI:                                          │
-│  └─ admin/html.ts    (Preact+HTM SPA inline)        │
-│                                                     │
-├─────────────────────────────────────────────────────┤
-│               Cloudflare Bindings                   │
-├─────────────────────────────────────────────────────┤
-│  REDIRECTS_KV ──→ [Cloudflare KV Namespace]         │
-│  ANALYTICS_DB ──→ [Cloudflare D1 Database]          │
-└─────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────┐
+│          Cloudflare Workers Isolate                  │
+├──────────────────────────────────────────────────────┤
+│  index.ts (Hono App Router)                          │
+├──────────────────────────────────────────────────────┤
+│                                                      │
+│  Middleware Layer:                                   │
+│  ├─ CORS (api/* routes only, same-origin)            │
+│  └─ Auth (Cloudflare Access JWT verification)        │
+│                                                      │
+│  Route Handlers:                                     │
+│  ├─ redirect.ts      (catch-all, matching+redirect)  │
+│  ├─ api.ts           (domain, rule, config, stats)   │
+│  └─ admin.ts         (landing page + SPA fallback)   │
+│                                                      │
+│  Service Layer:                                      │
+│  ├─ kv-store.ts      (KV read/write ops)             │
+│  ├─ rule-matcher.ts  (URLPattern matching logic)     │
+│  └─ analytics.ts     (D1 queries and data capture)   │
+│                                                      │
+│  Middleware:                                         │
+│  └─ auth.ts          (JWT verification, JWKS cache)  │
+│                                                      │
+│  Landing Page HTML:                                  │
+│  └─ admin/landing-html.ts (Marketing page)           │
+│                                                      │
+├──────────────────────────────────────────────────────┤
+│                  Static Assets                       │
+├──────────────────────────────────────────────────────┤
+│  public/admin/                                       │
+│  ├─ index.html       (SPA shell from Vite)           │
+│  └─ assets/          (JS, CSS from Vite build)       │
+│     ├─ index-*.js    (Preact app bundle)             │
+│     └─ index-*.css   (Tailwind CSS compiled)         │
+│                                                      │
+│  Served via ASSETS binding (Cloudflare Static Files) │
+│                                                      │
+├──────────────────────────────────────────────────────┤
+│               Cloudflare Bindings                    │
+├──────────────────────────────────────────────────────┤
+│  REDIRECTS_KV ──→ [Cloudflare KV Namespace]          │
+│  ANALYTICS_DB ──→ [Cloudflare D1 Database]           │
+│  ASSETS       ──→ [Static Assets from public/]       │
+└──────────────────────────────────────────────────────┘
 ```
 
 ## KV Data Model
@@ -293,15 +305,12 @@ Return 200 + JSON
 
 ## Fault Tolerance
 
-| Failure Scenario   | Behavior                                                      |
-| ------------------ | ------------------------------------------------------------- |
-| KV unreachable     | Request fails, 500 error                                      |
-| Rule not found     | Serve custom 404 or default URL                               |
-| D1 unavailable     | Analytics write fails silently (waitUntil), redirect succeeds |
-| Invalid URLPattern | Rule skipped, next rule checked                               |
-| Auth unavailable   | Request denied (401) until JWKS refreshes                     |
-| KV unreachable     | Request fails, 500 error                                      |
-| Rule not found     | Serve custom 404 or default URL                               |
-| D1 unavailable     | Analytics write fails silently (waitUntil), redirect succeeds |
-| Invalid URLPattern | Rule skipped, next rule checked                               |
-| Auth unavailable   | Request denied (401) until JWKS refreshes                     |
+| Failure Scenario      | Behavior                                                      |
+| --------------------- | ------------------------------------------------------------- |
+| KV unreachable        | Request fails, 500 error                                      |
+| Rule not found        | Serve custom 404 or default URL                               |
+| D1 unavailable        | Analytics write fails silently (waitUntil), redirect succeeds |
+| Invalid URLPattern    | Rule skipped, next rule checked                               |
+| Auth unavailable      | Request denied (401) until JWKS refreshes                     |
+| Static assets missing | 404 Not Found                                                 |
+| SPA fallback fails    | User sees 404, needs to manually go back to admin             |

@@ -7,7 +7,7 @@ Multi-domain URL redirect system with KV rules, D1 analytics, and Preact admin U
 - **Multi-domain redirects**: Path, wildcard, and subdomain matching via URLPattern API
 - **Priority-based rules**: Higher priority rules checked first, first match wins
 - **Click analytics**: Non-blocking D1 writes via `waitUntil`, country/device/referrer tracking
-- **Admin UI**: Preact + HTM + Signals SPA (~6KB), no build step, served inline
+- **Admin UI**: Preact + Vite SPA with Tailwind CSS, violet theme, dark mode support, served as static assets
 - **Auth**: Cloudflare Access protected admin and API routes
 - **Per-domain config**: Custom 404 pages and default redirect URLs
 
@@ -19,10 +19,18 @@ pnpm install
 # Apply D1 migrations (local)
 pnpm d1:migrate
 
+# Terminal 1: Start Worker dev server
 pnpm dev
+
+# Terminal 2: Start Vite dev server (for admin SPA with HMR)
+pnpm admin:dev
 ```
 
-Visit `http://localhost:8787/_health` to verify, `http://localhost:8787/admin` for admin UI.
+Visit:
+
+- `http://localhost:8787/_health` - Health check
+- `http://localhost:8787/` - Landing page
+- `http://localhost:8787/admin` - Admin UI (SPA)
 
 ## Testing
 
